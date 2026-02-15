@@ -287,7 +287,8 @@ body {
 
 .intro-carousel {
   width: min(100%, 560px);
-  overflow: hidden;
+  overflow-x: hidden;
+  overflow-y: visible;
 }
 
 .intro-track {
@@ -324,6 +325,8 @@ body {
 .panel-content--rsvp {
   max-width: 440px;
   text-align: left;
+  padding-left: 1.25rem;
+  padding-right: 1.25rem;
 }
 
 .panel-content--itinerary {
@@ -333,6 +336,15 @@ body {
   align-items: flex-start;
   justify-content: flex-start;
   text-align: left;
+}
+
+.itinerary-footer {
+  margin-top: auto;
+  width: 100%;
+}
+
+.itinerary-footer .scroll-hint {
+  margin-top: 1rem;
 }
 
 .lights--panel::before {
@@ -715,7 +727,7 @@ body {
   align-items: center;
   justify-content: space-between;
   gap: 0.75rem;
-  padding: 0.55rem 0.75rem;
+  padding: 0.5rem 0.55rem;
   border: 1px solid var(--glass-border);
   border-radius: 10px;
   background: rgba(26, 26, 26, 0.45);
@@ -731,8 +743,9 @@ body {
   width: 100%;
   min-width: 0;
   font-family: var(--font-sans);
-  font-size: 0.92rem;
-  padding: 0.45rem 0.6rem;
+  font-size: 0.98rem;
+  line-height: 1.35;
+  padding: 0.55rem 0.7rem;
   background: rgba(13, 13, 13, 0.55);
   border: 1px solid var(--glass-border);
   color: var(--lily);
@@ -743,7 +756,8 @@ body {
 .guest-name-input:focus,
 .guest-plusone-input:focus {
   border-color: var(--accent-green);
-  box-shadow: 0 0 0 2px rgba(61, 92, 61, 0.25);
+  box-shadow: 0 0 0 2px rgba(61, 92, 61, 0.35);
+  background: rgba(13, 13, 13, 0.75);
 }
 
 .guest-status-btn {
@@ -838,12 +852,168 @@ body {
   color: #c75a5a;
 }
 
+@media (max-width: 900px) {
+  .panel {
+    padding: 1.25rem;
+  }
+
+  .panel-content--glass {
+    padding: 2.25rem 1.5rem;
+  }
+
+  .panel-content--wide {
+    max-width: 100%;
+  }
+
+  .gallery-glass {
+    width: 100%;
+  }
+}
+
+@media (max-width: 700px) {
+  .panels {
+    height: auto;
+    overflow: visible;
+    scroll-snap-type: none;
+  }
+
+  .panel {
+    min-height: auto;
+    scroll-snap-align: none;
+    scroll-snap-stop: normal;
+    align-items: flex-start;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+  }
+
+  .panel + .panel {
+    margin-top: 0.75rem;
+  }
+
+  .panel-content--glass {
+    max-height: none;
+    overflow: visible;
+  }
+
+  .panel-content--wide {
+    max-height: none;
+    overflow: visible;
+  }
+
+  .intro-carousel {
+    width: 100%;
+  }
+
+  .intro-page {
+    padding: 0;
+  }
+
+  .hero-tagline {
+    font-size: 1rem;
+  }
+
+  .intro-text {
+    font-size: 0.94rem;
+  }
+
+  .intro-details {
+    grid-template-columns: 1fr;
+    gap: 0.75rem;
+    margin-bottom: 1.25rem;
+  }
+
+  .detail-card {
+    padding: 1.1rem;
+  }
+
+  .panel-content--itinerary {
+    min-height: 300px;
+  }
+
+  .slider {
+    max-height: 42vh;
+  }
+
+  .panel--moments .slider {
+    max-height: 58vh;
+  }
+
+  .slider-controls {
+    gap: 0.9rem;
+    padding: 0.8rem 1rem;
+  }
+
+  .slider-btn {
+    width: 40px;
+    height: 40px;
+  }
+
+  .invite-load-row {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .btn-load-invite {
+    width: 100%;
+  }
+
+  .guest-row {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.6rem;
+    padding: 0.65rem 0.65rem;
+  }
+
+  .guest-status-btn {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  .guest-name-input,
+  .guest-plusone-input {
+    font-size: 1rem;
+    padding: 0.65rem 0.75rem;
+  }
+
+  .btn-submit {
+    width: 100%;
+  }
+}
+
 @media (max-width: 420px) {
+  .panel--intro {
+    padding-top: 0.6rem;
+    padding-bottom: 0.6rem;
+  }
+
+  .panel {
+    padding: 0.8rem;
+  }
+
+  .panel-content--glass {
+    padding: 1.5rem 1rem;
+    border-radius: 16px;
+  }
+
+  .hero-names {
+    font-size: clamp(1.8rem, 8vw, 2.3rem);
+  }
+
   .intro-details {
     grid-template-columns: 1fr;
   }
 
   .detail-value--location {
     max-width: none;
+  }
+
+  .rsvp-note {
+    font-size: 1rem;
+  }
+
+  .guest-name-input,
+  .guest-plusone-input {
+    font-size: 1.02rem;
+    padding: 0.72rem 0.78rem;
   }
 }

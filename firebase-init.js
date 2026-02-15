@@ -2,6 +2,8 @@ import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebas
 import { getAnalytics, isSupported as analyticsSupported } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-analytics.js";
 import {
   getAuth,
+  setPersistence,
+  browserLocalPersistence,
   onAuthStateChanged,
   signInWithEmailAndPassword,
   signOut
@@ -22,6 +24,10 @@ const auth = getAuth(app);
 const DATABASE_ID = "wedding";
 const API_KEY = firebaseConfig.apiKey;
 const PROJECT_ID = firebaseConfig.projectId;
+
+setPersistence(auth, browserLocalPersistence).catch(function () {
+  // If persistence cannot be set (e.g. restricted browser mode), continue gracefully.
+});
 
 // Analytics may be unavailable in some local/private environments.
 analyticsSupported()

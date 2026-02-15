@@ -1,5 +1,5 @@
 (function () {
-  const ALLOWED_EMAIL = "romanvgrigorii@gmail.com";
+  const ALLOWED_EMAIL = "wik4tzero@gmail.com";
 
   const gate = document.getElementById("gate");
   const main = document.getElementById("main");
@@ -95,9 +95,8 @@
       return;
     }
 
-    firebaseAuthApi.signOut().catch(function () {});
     lock();
-    showError("Access restricted. Please sign in with romanvgrigorii@gmail.com.");
+    showError("Access restricted for " + user.email + ".");
   });
 
   form.addEventListener("submit", function (e) {
@@ -141,12 +140,27 @@
   }
 
   // —— Photo slideshow ——
+  function imageExists(src) {
+    return new Promise(function (resolve) {
+      const img = new Image();
+      let done = false;
+      const finish = function (value) {
+        if (done) return;
+        done = true;
+        resolve(value);
+      };
+      img.onload = function () { finish(true); };
+      img.onerror = function () { finish(false); };
+      img.src = src;
+    });
+  }
+
   function initSlideshow() {
     const photoIds = [4, 11, 15, 19, 21, 27, 30, 33, 39, 43, 45, 46, 47, 51, 56, 85, 104];
     const bottomHalfOnlyIds = new Set([56, 104]);
     const cacheBust = Date.now();
-    const photos = photoIds.map(function (id) {
-      return "wedding_photos/" + id + ".jpg?v=" + cacheBust;
+    const photoEntries = photoIds.map(function (id) {
+      return { id: id, src: "wedding_photos/" + id + ".jpg?v=" + cacheBust };
     });
 
     const slideImg = main.querySelector(".slider-slide");
@@ -156,16 +170,25 @@
     const btnNext = main.querySelector(".slider-btn--next");
 
     if (!slideImg || !totalEl) return;
+    let availableEntries = photoEntries.slice();
 
-    totalEl.textContent = photos.length;
+    if (availableEntries.length === 0) {
+      totalEl.textContent = "0";
+      if (currentEl) currentEl.textContent = "0";
+      if (btnPrev) btnPrev.disabled = true;
+      if (btnNext) btnNext.disabled = true;
+      return;
+    }
+
+    totalEl.textContent = availableEntries.length;
     let index = 0;
     let autoTimer = null;
 
     function goTo(i) {
-      index = (i + photos.length) % photos.length;
-      slideImg.src = photos[index];
-      slideImg.alt = "Wedding moment " + (index + 1);
-      slideImg.classList.toggle("slider-slide--bottom-half", bottomHalfOnlyIds.has(photoIds[index]));
+      index = (i + availableEntries.length) % availableEntries.length;
+      slideImg.src = availableEntries[index].src;
+      slideImg.alt = "";
+      slideImg.classList.toggle("slider-slide--bottom-half", bottomHalfOnlyIds.has(availableEntries[index].id));
       if (currentEl) currentEl.textContent = index + 1;
     }
 
@@ -186,8 +209,39 @@
 
     if (btnPrev) btnPrev.addEventListener("click", prev);
     if (btnNext) btnNext.addEventListener("click", next);
+
+    slideImg.onerror = function () {
+      if (availableEntries.length <= 1) return;
+      goTo(index + 1);
+    };
+
     goTo(0);
     resetAuto();
+
+    Promise.all(photoEntries.map(async function (entry) {
+      const exists = await imageExists(entry.src);
+      return exists ? entry : null;
+    })).then(function (resolvedEntries) {
+      const filtered = resolvedEntries.filter(function (entry) {
+        return entry !== null;
+      });
+      if (filtered.length === 0) {
+        availableEntries = [];
+        totalEl.textContent = "0";
+        if (currentEl) currentEl.textContent = "0";
+        if (btnPrev) btnPrev.disabled = true;
+        if (btnNext) btnNext.disabled = true;
+        slideImg.removeAttribute("src");
+        return;
+      }
+      const currentId = availableEntries[index] ? availableEntries[index].id : filtered[0].id;
+      availableEntries = filtered;
+      totalEl.textContent = availableEntries.length;
+      const nextIndex = availableEntries.findIndex(function (entry) {
+        return entry.id === currentId;
+      });
+      goTo(nextIndex >= 0 ? nextIndex : 0);
+    });
   }
 
   // —— RSVP: Firestore-backed invite status updates ——
@@ -252,7 +306,7 @@
           statusBtn.className = "guest-status-btn"
             + (activeGuests[index].status ? " is-confirmed" : "")
             + (typedName ? "" : " is-disabled");
-          statusBtn.textContent = activeGuests[index].status ? "rsvped" : "confirm";
+          statusBtn.textContent = activeGuests[index].status ? "confirmed" : "confirm";
         }
 
         nameInput.addEventListener("input", syncStatusButton);
