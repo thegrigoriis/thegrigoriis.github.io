@@ -287,32 +287,43 @@
         nameInput.value = guest.name === "+1" ? "" : guest.name;
         row.appendChild(nameInput);
 
-        const statusBtn = document.createElement("button");
-        statusBtn.type = "button";
-        statusBtn.className = "guest-status-btn";
-        statusBtn.addEventListener("click", function () {
-          if (statusBtn.disabled) return;
-          activeGuests[index].status = !activeGuests[index].status;
-          syncStatusButton();
+        const statusLabel = document.createElement("label");
+        statusLabel.className = "guest-status-control";
+        const statusInput = document.createElement("input");
+        statusInput.type = "checkbox";
+        statusInput.className = "guest-status-checkbox";
+        statusLabel.appendChild(statusInput);
+
+        statusInput.addEventListener("change", function () {
+          if (statusInput.disabled) return;
+          activeGuests[index].status = statusInput.checked;
+          syncStatusControl();
         });
 
-        function syncStatusButton() {
+        function syncStatusControl() {
+          const previousName = (activeGuests[index].name || "").trim();
           const typedName = (nameInput.value || "").trim();
           activeGuests[index].name = typedName;
           if (!typedName) {
             activeGuests[index].status = false;
+          } else if (!previousName) {
+            activeGuests[index].status = true;
           }
-          statusBtn.disabled = !typedName;
-          statusBtn.className = "guest-status-btn"
-            + (activeGuests[index].status ? " is-confirmed" : "")
-            + (typedName ? "" : " is-disabled");
-          statusBtn.textContent = activeGuests[index].status ? "confirmed" : "confirm";
+          statusInput.disabled = !typedName;
+          statusInput.checked = Boolean(activeGuests[index].status);
+          statusInput.setAttribute(
+            "aria-label",
+            typedName
+              ? ("Confirm attendance for " + typedName)
+              : "Enter guest name to enable confirmation"
+          );
+          statusLabel.className = "guest-status-control" + (typedName ? "" : " is-disabled");
         }
 
-        nameInput.addEventListener("input", syncStatusButton);
-        syncStatusButton();
+        nameInput.addEventListener("input", syncStatusControl);
+        syncStatusControl();
 
-        row.appendChild(statusBtn);
+        row.appendChild(statusLabel);
         guestContainer.appendChild(row);
       });
     }
