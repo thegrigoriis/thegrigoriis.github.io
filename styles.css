@@ -1028,11 +1028,23 @@ body {
 
   .intro-carousel {
     width: 100%;
+    max-width: 100%;
+    min-height: 0;
+  }
+
+  .intro-track {
+    min-height: 0;
+    align-items: stretch;
   }
 
   .intro-page {
     padding: 0;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
   }
+
 
   .hero-tagline {
     font-size: 1rem;
@@ -1052,9 +1064,56 @@ body {
     padding: 1.1rem;
   }
 
-  .panel--intro .intro-page .panel-content--glass {
-    min-height: 300px;
-    max-height: 70vh;
+  /* First intro card: natural height */
+  .panel--intro .intro-page:first-child .panel-content--glass {
+    min-height: auto;
+    max-height: none;
+  }
+
+  /* Itinerary card: fixed height on mobile so the schedule scrolls inside it */
+  .panel--intro .intro-page:last-child .panel-content--glass {
+    max-height: 82vh;
+    min-height: 280px;
+    flex: 1 1 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+  }
+
+  .panel-content--itinerary {
+    height: 100%;
+    min-height: 0;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .itinerary-days {
+    flex: 1 1 0;
+    min-height: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+    padding-right: 0.35rem;
+    padding-bottom: 1rem;
+  }
+
+  .itinerary-footer {
+    flex-shrink: 0;
+  }
+
+  .itinerary-list {
+    min-width: 0;
+  }
+
+  .itinerary-item {
+    min-width: 0;
+    grid-template-columns: 10ch minmax(0, 1fr);
+  }
+
+  .itinerary-label {
+    min-width: 0;
+    overflow-wrap: break-word;
   }
 
   .slider {
@@ -1121,6 +1180,26 @@ body {
   .panel-content--glass {
     padding: 1.5rem 1rem;
     border-radius: 16px;
+  }
+
+  .itinerary-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .itinerary-item {
+    grid-template-columns: 10ch 1fr;
+    gap: 0.75rem 1rem;
+  }
+
+  .itinerary-time {
+    font-size: 0.85rem;
+  }
+
+  .itinerary-label {
+    font-size: 0.9rem;
+    word-wrap: break-word;
+    min-width: 0;
   }
 
   .hero-names {
