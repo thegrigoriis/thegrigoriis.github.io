@@ -124,6 +124,73 @@
     });
   });
 
+  var itineraryLang = "en";
+
+  var itineraryTranslations = {
+    en: {
+      "itinerary.schedule": "Schedule",
+      "itinerary.dayThu": "Thursday, June 4 — optional friends & family dinner",
+      "itinerary.dayFri": "Friday, June 5 — the BIG day",
+      "itinerary.daySat": "Saturday, June 6 — optional excursion to Tequila",
+      "itinerary.eventCeremony": "Ceremony",
+      "itinerary.eventCocktail": "Cocktail hour",
+      "itinerary.eventDinner": "Dinner",
+      "itinerary.eventCelebrations": "Celebrations",
+      "itinerary.eventBreakfast": "Breakfast",
+      "itinerary.eventBusTequila": "Bus to Tequila",
+      "itinerary.eventTastingEnds": "Tasting ends — 2 hours to explore town",
+      "itinerary.eventCantaritos": "Bus to <a class=\"itinerary-link\" href=\"https://www.google.com/maps/search/Cantaritos+el+G%C3%BCero+%231+Tequila\" target=\"_blank\" rel=\"noopener noreferrer\">Cantaritos el Güero #1</a>",
+      "itinerary.eventBusBack": "Bus back to Guadalajara",
+      "itinerary.back": "Back",
+      "itinerary.scrollHint": "Scroll to see our moments",
+      "itinerary.eventElParian": "Dinner at <a class=\"itinerary-link\" href=\"https://share.google/JjYYIEuuaYcNl4BtF\" target=\"_blank\" rel=\"noopener noreferrer\">El Parian</a> (Tlaquepaque)",
+      "itinerary.eventFabrica": "<a class=\"itinerary-link\" href=\"https://share.google/yjX10Sw1Ylx6m4Ggf\" target=\"_blank\" rel=\"noopener noreferrer\">Fábrica La Rojeña</a> / tastings",
+      "itinerary.eventLunch": "(suggestion) Lunch at <a class=\"itinerary-link\" href=\"https://maps.app.goo.gl/7TFN6WncmWr82zQQ6\" target=\"_blank\" rel=\"noopener noreferrer\">La Cueva de Don Cenobio</a>",
+      "itinerary.eventMuseum": "(suggestion) Visit the <a class=\"itinerary-link\" href=\"https://maps.app.goo.gl/bNFUkhGh5LQ2xWqQA\" target=\"_blank\" rel=\"noopener noreferrer\">Museum</a> / plaza"
+    },
+    es: {
+      "itinerary.schedule": "Programa",
+      "itinerary.dayThu": "Jueves 4 de junio — cena opcional con amigos y familia",
+      "itinerary.dayFri": "Viernes 5 de junio — el GRAN día",
+      "itinerary.daySat": "Sábado 6 de junio — excursión opcional a Tequila",
+      "itinerary.eventCeremony": "Ceremonia",
+      "itinerary.eventCocktail": "Cóctel",
+      "itinerary.eventDinner": "Cena",
+      "itinerary.eventCelebrations": "Fiesta",
+      "itinerary.eventBreakfast": "Desayuno",
+      "itinerary.eventBusTequila": "Camión a Tequila",
+      "itinerary.eventTastingEnds": "Degustación termina — 2 horas para recorrer el pueblo",
+      "itinerary.eventCantaritos": "Camión a <a class=\"itinerary-link\" href=\"https://www.google.com/maps/search/Cantaritos+el+G%C3%BCero+%231+Tequila\" target=\"_blank\" rel=\"noopener noreferrer\">Cantaritos el Güero #1</a>",
+      "itinerary.eventBusBack": "Camión de regreso a Guadalajara",
+      "itinerary.back": "Atrás",
+      "itinerary.scrollHint": "Desliza para ver nuestros momentos",
+      "itinerary.eventElParian": "Cena en <a class=\"itinerary-link\" href=\"https://share.google/JjYYIEuuaYcNl4BtF\" target=\"_blank\" rel=\"noopener noreferrer\">El Parian</a> (Tlaquepaque)",
+      "itinerary.eventFabrica": "<a class=\"itinerary-link\" href=\"https://share.google/yjX10Sw1Ylx6m4Ggf\" target=\"_blank\" rel=\"noopener noreferrer\">Fábrica La Rojeña</a> / degustaciones",
+      "itinerary.eventLunch": "(sugerencia) Comida en <a class=\"itinerary-link\" href=\"https://maps.app.goo.gl/7TFN6WncmWr82zQQ6\" target=\"_blank\" rel=\"noopener noreferrer\">La Cueva de Don Cenobio</a>",
+      "itinerary.eventMuseum": "(sugerencia) Visitar el <a class=\"itinerary-link\" href=\"https://maps.app.goo.gl/bNFUkhGh5LQ2xWqQA\" target=\"_blank\" rel=\"noopener noreferrer\">Museo</a> / plaza"
+    }
+  };
+
+  function applyItineraryLang(lang) {
+    itineraryLang = lang;
+    var t = itineraryTranslations[lang] || itineraryTranslations.en;
+    var container = document.querySelector(".panel-content--itinerary");
+    if (!container) return;
+    container.querySelectorAll("[data-i18n]").forEach(function (el) {
+      var key = el.getAttribute("data-i18n");
+      if (t[key] != null) el.textContent = t[key];
+    });
+    container.querySelectorAll("[data-i18n-html]").forEach(function (el) {
+      var key = el.getAttribute("data-i18n-html");
+      if (t[key] != null) el.innerHTML = t[key];
+    });
+    container.querySelectorAll(".itinerary-lang-btn").forEach(function (btn) {
+      var isActive = btn.getAttribute("data-lang") === lang;
+      btn.classList.toggle("is-active", isActive);
+      btn.setAttribute("aria-pressed", isActive ? "true" : "false");
+    });
+  }
+
   function initIntroItinerary() {
     const panelIntro = document.getElementById("panel-intro");
     const openBtn = document.getElementById("open-itinerary");
@@ -137,6 +204,17 @@
     closeBtn.addEventListener("click", function () {
       panelIntro.classList.remove("is-itinerary-open");
     });
+
+    var langContainer = document.querySelector(".itinerary-lang-toggle");
+    if (langContainer) {
+      langContainer.querySelectorAll(".itinerary-lang-btn").forEach(function (btn) {
+        btn.addEventListener("click", function () {
+          var lang = btn.getAttribute("data-lang");
+          if (lang) applyItineraryLang(lang);
+        });
+      });
+      applyItineraryLang(itineraryLang);
+    }
   }
 
   // —— Photo slideshow ——

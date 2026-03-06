@@ -62,10 +62,85 @@
             </div>
             <div class="intro-page">
               <div class="panel-content panel-content--glass panel-content--itinerary">
-                <h2 class="panel-title">Itinerary under construction</h2>
+                <div class="itinerary-header">
+                  <h2 class="panel-title" data-i18n="itinerary.schedule">Schedule</h2>
+                  <div class="itinerary-lang-toggle" role="group" aria-label="Language">
+                    <button type="button" class="itinerary-lang-btn is-active" data-lang="en" aria-pressed="true">English</button>
+                    <button type="button" class="itinerary-lang-btn" data-lang="es" aria-pressed="false">Español</button>
+                  </div>
+                </div>
+                <div class="itinerary-days">
+                  <section class="itinerary-day" aria-label="Thursday June 4">
+                    <h3 class="itinerary-day-title" data-i18n="itinerary.dayThu">Thursday, June 4 - optional friends & family dinner</h3>
+                    <ul class="itinerary-list">
+                      <li class="itinerary-item">
+                        <span class="itinerary-time">7:00 PM</span>
+                        <span class="itinerary-label" data-i18n-html="itinerary.eventElParian">Dinner at <a class="itinerary-link" href="https://share.google/JjYYIEuuaYcNl4BtF" target="_blank" rel="noopener noreferrer">El Parian</a> (Tlaquepaque)</span>
+                      </li>
+                    </ul>
+                  </section>
+                  <section class="itinerary-day" aria-label="Friday June 5 - the BIG day">
+                    <h3 class="itinerary-day-title" data-i18n="itinerary.dayFri">Friday, June 5</h3>
+                    <ul class="itinerary-list">
+                      <li class="itinerary-item">
+                        <span class="itinerary-time">6:00 PM</span>
+                        <span class="itinerary-label" data-i18n="itinerary.eventCeremony">Ceremony</span>
+                      </li>
+                      <li class="itinerary-item">
+                        <span class="itinerary-time">7:30 PM</span>
+                        <span class="itinerary-label" data-i18n="itinerary.eventCocktail">Cocktail hour</span>
+                      </li>
+                      <li class="itinerary-item">
+                        <span class="itinerary-time">9:00 PM</span>
+                        <span class="itinerary-label" data-i18n="itinerary.eventDinner">Dinner</span>
+                      </li>
+                      <li class="itinerary-item">
+                        <span class="itinerary-time">10:00 PM–2:30 AM</span>
+                        <span class="itinerary-label" data-i18n="itinerary.eventCelebrations">Celebrations</span>
+                      </li>
+                    </ul>
+                  </section>
+                  <section class="itinerary-day" aria-label="Saturday June 6 Tequila">
+                    <h3 class="itinerary-day-title" data-i18n="itinerary.daySat">Saturday, June 6 — optional excursion to Tequila</h3>
+                    <ul class="itinerary-list">
+                      <li class="itinerary-item">
+                        <span class="itinerary-time">8:30 AM</span>
+                        <span class="itinerary-label" data-i18n="itinerary.eventBreakfast">Breakfast</span>
+                      </li>
+                      <li class="itinerary-item">
+                        <span class="itinerary-time">11:00 AM</span>
+                        <span class="itinerary-label" data-i18n="itinerary.eventBusTequila">Bus to Tequila</span>
+                      </li>
+                      <li class="itinerary-item">
+                        <span class="itinerary-time">12:30 PM</span>
+                        <span class="itinerary-label" data-i18n-html="itinerary.eventFabrica">Fábrica La Rojeña / tastings</span>
+                      </li>
+                      <li class="itinerary-item">
+                        <span class="itinerary-time">1:30 PM</span>
+                        <span class="itinerary-label" data-i18n="itinerary.eventTastingEnds">Tasting ends — 2 hours to explore town</span>
+                      </li>
+                      <li class="itinerary-item">
+                        <span class="itinerary-time">—</span>
+                        <span class="itinerary-label" data-i18n-html="itinerary.eventLunch">(suggestion) Lunch at La Cueva de Don Cenobio</span>
+                      </li>
+                      <li class="itinerary-item">
+                        <span class="itinerary-time">—</span>
+                        <span class="itinerary-label" data-i18n-html="itinerary.eventMuseum">(suggestion) Visit the Museum / plaza</span>
+                      </li>
+                      <li class="itinerary-item">
+                        <span class="itinerary-time">4:00 PM</span>
+                        <span class="itinerary-label" data-i18n-html="itinerary.eventCantaritos">Bus to Cantaritos el Güero #1</span>
+                      </li>
+                      <li class="itinerary-item">
+                        <span class="itinerary-time">7:00 PM</span>
+                        <span class="itinerary-label" data-i18n="itinerary.eventBusBack">Bus back to Guadalajara</span>
+                      </li>
+                    </ul>
+                  </section>
+                </div>
                 <div class="itinerary-footer">
-                  <button type="button" id="close-itinerary" class="btn-load-invite">Back</button>
-                  <p class="scroll-hint">Scroll to see our moments</p>
+                  <button type="button" id="close-itinerary" class="btn-load-invite" data-i18n="itinerary.back">Back</button>
+                  <p class="scroll-hint" data-i18n="itinerary.scrollHint">Scroll to see our moments</p>
                 </div>
               </div>
             </div>
@@ -125,6 +200,6 @@
   </main>
 
   <script type="module" src="firebase-init.js?v=20260215-5"></script>
-  <script type="module" src="main.js?v=20260215-11"></script>
+  <script type="module" src="main.js?v=20260305-1"></script>
 </body>
 </html>
